@@ -1,27 +1,62 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-image: url(assets/19110.png);
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url(assets/19110.png);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
 }
 
 #gameArea {
-    position: relative;
-    width: 700px;
-    height: 700px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    margin: 0 auto;
-    overflow: hidden;
-    background-color: #e0f7fa3b; /* Helle Wasserfarbe */
+  position: relative;
+  width: 700px;
+  height: 700px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #e0f7fa3b; /* Helle Wasserfarbe */
 }
 
-.fish, .seaweed {
-    position: absolute;
-    font-size: 50px; /* Größe der Emojis */
+.fish,
+.seaweed {
+  position: absolute;
+  font-size: 50px; /* Größe der Emojis */
 }
 
+/* Media Query für Tablets */
+@media (max-width: 768px) {
+  #gameArea {
+    width: 90%; /* Breite anpassen */
+    height: auto; /* Höhe automatisch anpassen */
+  }
+
+  .fish,
+  .seaweed {
+    font-size: 40px; /* Kleinere Emojis für Tablets */
+  }
+}
+
+/* Media Query für Smartphones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 12px; /* Kleinere Schriftgröße für Smartphones */
+  }
+
+  #gameArea {
+    width: 100vw; /* Fast volle Breite für Smartphones */
+    height: 90vh; /* Höhe automatisch anpassen */
+    border-radius: 3%; /* Runderer Rand */
+  }
+
+  .fish,
+  .seaweed {
+    font-size: 40px; /* Noch kleinere Emojis für Smartphones */
+  }
+}
