@@ -168,5 +168,7 @@ function resetGame() {
     seaweedElements.length = 0; // Leere das Array
 }
 
+
+
 // Starte das Spiel, wenn die Seite geladen wird
 window.onload = startGame;
