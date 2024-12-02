@@ -14,10 +14,12 @@ const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
 
 // Liste von verschiedenen Fisch-Emojis
-const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🐬', '🐳'];
+const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🐬'];
 
-// Funktion zum Starten des Spiels
 function startGame() {
+    // Alert-Fenster anzeigen
+    alert("Fang die Fische! Du hast 30 Sekunden Zeit. Pass auf, dass du keine Alge fängst, sonst gibt es Zeitabzug!");
+
     score = 0;
     timeLeft = 30;
     scoreDisplay.textContent = 'Punkte: ' + score;
