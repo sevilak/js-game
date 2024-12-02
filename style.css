@@ -1,13 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-image: url(https://dbdzm869oupei.cloudfront.net/img/photomural/preview/19110.png); /* Hintergrundbild */
+    background-image: url(assets/19110.png);
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
     height: 100vh;
-
 }
 
 #gameArea {
