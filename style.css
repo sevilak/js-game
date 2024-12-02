@@ -1,7 +1,13 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #b3e5fc; /* Himmelblau */
+    background-image: url("../assets/19110.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+
 }
 
 #gameArea {
@@ -12,7 +18,7 @@ body {
     border-radius: 50%;
     margin: 0 auto;
     overflow: hidden;
-    background-color: #e0f7fa; /* Helle Wasserfarbe */
+    background-color: #e0f7fa3b; /* Helle Wasserfarbe */
 }
 
 .fish, .seaweed {
