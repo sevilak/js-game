@@ -1,154 +1,192 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-image: url(assets/19110.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url(assets/19110.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 h1 {
-    margin-top: 20px;
-    font-size: 3em;
-    font-family: "Sixtyfour Convergence", sans-serif;
+  margin-top: 20px;
+  font-size: 3em;
+  font-family: "Sixtyfour Convergence", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "BLED" 0,
-    "SCAN" 0,
-    "XELA" 0,
-    "YELA" 0;
+  font-variation-settings: "BLED" 0, "SCAN" 0, "XELA" 0, "YELA" 0;
 }
 
 .players {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .players input {
-    font-size: 1em;
-    padding: 10px;
-    margin: 0 10px;
-    border: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #eef8faef; 
+  font-size: 1em;
+  padding: 10px;
+  margin: 0 10px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #eef8faef;
 }
 
 button {
-    font-size: 1em;
-    padding: 10px 20px;
-    border: none;
-    background-color: #e44e4e;
-    color: white;
-    cursor: pointer;
-    text-transform: uppercase;
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  background-color: #e44e4e;
+  color: white;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 button:hover {
-    background-color: #ff1c1c;
+  background-color: #ff1c1c;
 }
 
 #timerDisplay {
-    font-size: 2em;
-    margin: 5px;
-    font-weight: 700;
-    color: #e44e4e;
-    text-transform: uppercase;
-    background-color: #f7f7f748;
-    padding: 10px;
-    border-radius: 5px;
-    width: 200px;
-    margin: 0 auto;
-
+  font-size: 2em;
+  margin: 5px;
+  font-weight: 700;
+  color: #e44e4e;
+  text-transform: uppercase;
+  background-color: #f7f7f748;
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  margin: 0 auto;
 }
 
 #scoreboard {
-display: inline;
-    margin-top: 20px;
-   font-size: 1em;
-    font-weight: 700;
-    color: #000000;
-    padding: 10px;
-    text-transform: uppercase;
-
+  display: inline;
+  margin-top: 20px;
+  font-size: 1em;
+  font-weight: 700;
+  color: #000000;
+  padding: 10px;
+  text-transform: uppercase;
 }
 
 #winnerDisplay {
-    font-size: 1.5em;
-    margin: 5px;
-    font-weight: 700;
-    color: #000000;
-    text-transform: uppercase;
-
-    padding: 10px;
-    border-radius: 5px;
-
-    margin: 0 auto;
+  font-size: 1.5em;
+  margin: 5px;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 auto;
 }
 
-
 #gameArea {
-    position: relative;
-    width: 900px;
-    height: 600px;
-    /* border: 2px solid #ffffff; */
-    overflow: hidden;
-    margin-top: 20px;
-    background-color: #e0f7fa71; /* Light blue background */
-    margin: 0 auto;
+  position: relative;
+  width: 900px;
+  height: 600px;
+  overflow: hidden;
+  margin-top: 20px;
+  background-color: #e0f7fa71; /* Light blue background */
+  margin: 0 auto;
 }
 
 .fish {
-    position: absolute;
-    font-size: 60px;
-    transition: transform 0.2s;
+  position: absolute;
+  font-size: 60px;
+  transition: transform 0.2s;
 }
 
 .seaweed {
-    position: absolute;
-    font-size: 50px;
-    transition: transform 0.2s;
+  position: absolute;
+  font-size: 50px;
+  transition: transform 0.2s;
 }
 
 /* Media Queries */
 @media (max-width: 768px) {
-    #gameArea {
-        width: 80%; /* Use a percentage for responsiveness */
-        height: 400px; /* Reduce height for tablets */
-    }
+  h1 {
+    font-size: 2.5em; /* Adjust heading size for tablets */
+  }
 
-    .fish {
-        font-size: 50px; /* Smaller fish for tablets */
-    }
+  .players input {
+    font-size: 0.9em; /* Slightly smaller input fields */
+    padding: 8px; /* Adjust padding */
+  }
 
-    .seaweed {
-        font-size: 40px; /* Smaller seaweed for tablets */
-    }
+  button {
+    font-size: 0.9em; /* Slightly smaller button */
+    padding: 8px 16px; /* Adjust padding */
+  }
+
+  #timerDisplay {
+    font-size: 1.5em; /* Smaller timer display */
+    width: 150px; /* Adjust width */
+  }
+
+  #scoreboard,
+  #winnerDisplay {
+    font-size: 1em; /* Adjust scoreboard and winner display */
+  }
+
+  #gameArea {
+    width: 80%; /* Use a percentage for responsiveness */
+    height: 400px; /* Reduce height for tablets */
+  }
+
+  .fish {
+    font-size: 50px; /* Smaller fish for tablets */
+  }
+
+  .seaweed {
+    font-size: 40px; /* Smaller seaweed for tablets */
+  }
 }
 
 @media (max-width: 480px) {
-    #gameArea {
-        width: 95%; /* Use a larger percentage for mobile */
-        height: 300px; /* Further reduce height for mobile */
-    }
+  h1 {
+    font-size: 2em; /* Further reduce heading size for mobile */
+  }
 
-    .fish {
-        font-size: 40px; /* Even smaller fish for mobile */
-    }
+  .players input {
+    font-size: 0.5em; /* Even smaller input fields */
+    padding: 6px; /* Adjust padding */
+  }
 
-    .seaweed {
-        font-size: 30px; /* Even smaller seaweed for mobile */
-    }
+  button {
+    font-size: 0.7em; /* Even smaller button */
+    padding: 6px 12px; /* Adjust padding for smaller buttons */
+  }
 
-    body {
-        padding: 10px; /* Add padding for mobile */
-    }
+  #timerDisplay {
+    font-size: 1em; /* Even smaller timer display for mobile */
+    width: 150px; /* Adjust width for mobile */
+  }
+
+  #scoreboard,
+  #winnerDisplay {
+    font-size: 0.9em; /* Smaller scoreboard and winner display for mobile */
+  }
+
+  #gameArea {
+    width: 95%; /* Use a larger percentage for mobile */
+    height: 300px; /* Further reduce height for mobile */
+  }
+
+  .fish {
+    font-size: 40px; /* Even smaller fish for mobile */
+  }
+
+  .seaweed {
+    font-size: 30px; /* Even smaller seaweed for mobile */
+  }
+
+  body {
+    padding: 10px; /* Add padding for mobile */
+  }
 }
