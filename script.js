@@ -1,174 +1,166 @@
-let score = 0;
-let timeLeft = 30;
-let timerId;
-const numberOfFishes = 15; // Anzahl der Fische erhöhen
-const numberOfSeaweeds = 25; // Anzahl der Algen
-const fishElements = []; // Array für die Fisch-Elemente
-const seaweedElements = []; // Array für die Algen-Elemente
-const moveInterval = 100; // Intervall für die Bewegung in Millisekunden
-const stepSize = 8; // Schrittgröße für die Bewegung
-const timePenalty = 3; // Zeitstrafe, wenn auf Algen geklickt wird
+let scorePlayer1 = 0;
+let scorePlayer2 = 0;
+let gameInterval;
+let currentPlayer = 1; // 1 for Player 1, 2 for Player 2
+let timerInterval;
+const gameArea = document.getElementById("gameArea");
+const scoreDisplayPlayer1 = document.getElementById("scorePlayer1");
+const scoreDisplayPlayer2 = document.getElementById("scorePlayer2");
+const winnerDisplay = document.getElementById("winnerDisplay");
+const timerDisplay = document.getElementById("timerDisplay");
+const fishEmojis = ["🐟", "🐠", "🐡"];
+const seaweedEmoji = "🌿";
 
-const gameArea = document.getElementById('gameArea');
-const scoreDisplay = document.getElementById('score');
-const timerDisplay = document.getElementById('timer');
-
-// Liste von verschiedenen Fisch-Emojis
-const fishEmojis = ['🐟', '🐠', '🐡', '🐋', '🐬'];
-
+// Function to start the game
 function startGame() {
-    // Alert-Fenster anzeigen
-    alert("Fang die Fische! Du hast 30 Sekunden Zeit. Pass auf, dass du keine Alge fängst, sonst gibt es Zeitabzug!");
+  const player1Name =
+    document.getElementById("player1Name").value || "Player 1";
+  const player2Name =
+    document.getElementById("player2Name").value || "Player 2";
 
-    score = 0;
-    timeLeft = 30;
-    scoreDisplay.textContent = 'Punkte: ' + score;
-    timerDisplay.textContent = 'Zeit: ' + timeLeft;
+  scorePlayer1 = 0;
+  scorePlayer2 = 0;
+  scoreDisplayPlayer1.textContent = `${player1Name} Score: 0`;
+  scoreDisplayPlayer2.textContent = `${player2Name} Score: 0`;
+  winnerDisplay.textContent = "";
+  timerDisplay.textContent = "Time Left: 30";
 
-    timerId = setInterval(updateTimer, 1000);
-    createFishes();
-    createSeaweeds();
-    moveFishes();
-    moveSeaweeds();
+  // Alert for game rules
+  alert(
+    "Game Rules:\nCatch all the fish to score points! 🐟🐠🐡\nBut be careful! If you catch seaweed, you lose 1 point! 🌿"
+  );
+
+  // Start the first round for Player 1
+  currentPlayer = 1;
+  startRound(player1Name, player2Name, 30);
+
+  // Start the second round for Player 2 after 30 seconds
+  setTimeout(() => {
+    alert(`It's time for ${player2Name}'s turn!`);
+    currentPlayer = 2;
+    startRound(player2Name, player1Name, 30);
+  }, 30000);
 }
 
-// Funktion, um Fische zu erstellen
-function createFishes() {
-    for (let i = 0; i < numberOfFishes; i++) {
-        const fish = document.createElement('div');
-        fish.classList.add('fish');
-        fish.textContent = getRandomFishEmoji(); // Zufälliges Fisch-Emoji auswählen
-        positionElement(fish);
-        gameArea.appendChild(fish);
-        fishElements.push(fish); // Füge den Fisch zum Array hinzu
+// Function to start a round
+function startRound(activePlayerName, inactivePlayerName, duration) {
+  let timeLeft = duration;
+  timerDisplay.textContent = `Time Left: ${timeLeft}`;
 
-        // Event-Listener für jeden Fisch
-        fish.addEventListener('click', () => {
-            score++;
-            scoreDisplay.textContent = 'Punkte: ' + score;
-            positionElement(fish); // Bewege den Fisch nach dem Klicken
-        });
-    }
-}
+  // Start spawning fish and seaweed
+  gameInterval = setInterval(() => {
+    spawnFish();
+    spawnSeaweed();
+  }, 800); // Increase frequency of spawning
 
-// Funktion, um ein zufälliges Fisch-Emoji auszuwählen
-function getRandomFishEmoji() {
-    const randomIndex = Math.floor(Math.random() * fishEmojis.length);
-    return fishEmojis[randomIndex];
-}
-
-// Funktion, um Algen zu erstellen
-function createSeaweeds() {
-    for (let i = 0; i < numberOfSeaweeds; i++) {
-        const seaweed = document.createElement('div');
-        seaweed.classList.add('seaweed');
-        seaweed.textContent = '🌿'; // Algen-Emoji
-        positionElement(seaweed);
-        gameArea.appendChild(seaweed);
-        seaweedElements.push(seaweed); // Füge die Algen zum Array hinzu
-
-           // Event-Listener für jede Alge
-           seaweed.addEventListener('click', () => {
-            timeLeft -= timePenalty; // Zeit reduzieren
-            if (timeLeft < 0) timeLeft = 0; // Verhindert negative Zeit
-            timerDisplay.textContent = 'Zeit: ' + timeLeft;
-            positionElement(seaweed); // Bewege die Alge nach dem Klicken
-        });
-    }
-}
-
-
-// Funktion, um ein Element zufällig zu positionieren
-function positionElement(element) {
-    const areaWidth = gameArea.clientWidth;
-    const areaHeight = gameArea.clientHeight;
-    const elementWidth = element.clientWidth;
-    const elementHeight = element.clientHeight;
-
-    let positionX = Math.random() * (areaWidth - elementWidth);
-    let positionY = Math.random() * (areaHeight - elementHeight);
-
-    element.style.left = positionX + 'px';
-    element.style.top = positionY + 'px';
-}
-
-// Funktion, um die Fische zufällig zu bewegen
-function moveFishes() {
-    setInterval(() => {
-        fishElements.forEach(fish => {
-            let directionX = (Math.random() < 0.5 ? 1 : -1) * stepSize;
-            let directionY = (Math.random() < 0.5 ? 1 : -1) * stepSize;
-
-            let currentX = parseFloat(fish.style.left) || 0;
-            let currentY = parseFloat(fish.style.top) || 0;
-
-            // Neue Position berechnen
-            let newX = currentX + directionX;
-            let newY = currentY + directionY;
-
-            // Überprüfen, ob die neue Position innerhalb des Spielbereichs ist
-            if (newX < 0) newX = 0;
-            if (newY < 0) newY = 0;
-            if (newX > gameArea.clientWidth - fish.clientWidth) newX = gameArea.clientWidth - fish.clientWidth;
-            if (newY > gameArea.clientHeight - fish.clientHeight) newY = gameArea.clientHeight - fish.clientHeight;
-
-            fish.style.left = newX + 'px';
-            fish.style.top = newY + 'px';
-        });
-    }, moveInterval);
-}
-
-// Funktion, um die Algen zufällig zu bewegen
-function moveSeaweeds() {
-    setInterval(() => {
-        seaweedElements.forEach(seaweed => {
-            let directionX = (Math.random() < 0.5 ? 1 : -1) * stepSize;
-            let directionY = (Math.random() < 0.5 ? 1 : -1) * stepSize;
-
-            let currentX = parseFloat(seaweed.style.left) || 0;
-            let currentY = parseFloat(seaweed.style.top) || 0;
-
-            // Neue Position berechnen
-            let newX = currentX + directionX;
-            let newY = currentY + directionY;
-
-            // Überprüfen, ob die neue Position innerhalb des Spielbereichs ist
-            if (newX < 0) newX = 0;
-            if (newY < 0) newY = 0;
-            if (newX > gameArea.clientWidth - seaweed.clientWidth) newX = gameArea.clientWidth - seaweed.clientWidth;
-            if (newY > gameArea.clientHeight - seaweed.clientHeight) newY = gameArea.clientHeight - seaweed.clientHeight;
-
-            seaweed.style.left = newX + 'px';
-            seaweed.style.top = newY + 'px';
-        });
-    }, moveInterval);
-}
-
-// Funktion zum Aktualisieren des Timers
-function updateTimer() {
+  // Timer countdown
+  timerInterval = setInterval(() => {
     timeLeft--;
-    timerDisplay.textContent = 'Zeit: ' + timeLeft;
+    timerDisplay.textContent = `Time Left: ${timeLeft}`;
     if (timeLeft <= 0) {
-        clearInterval(timerId);
-        alert('Zeit abgelaufen! Deine Punktzahl: ' + score);
-        resetGame();
+      clearInterval(timerInterval);
+      clearInterval(gameInterval);
+      if (currentPlayer === 1) {
+      }
+      // Check if both players have completed their turns
+      if (currentPlayer === 2) {
+        declareWinner(activePlayerName, inactivePlayerName);
+      }
     }
+  }, 1000);
 }
 
-// Funktion zum Zurücksetzen des Spiels
-function resetGame() {
-    score = 0;
-    timeLeft = 30;
-    scoreDisplay.textContent = 'Punkte: ' + score;
-    timerDisplay.textContent = 'Zeit: ' + timeLeft;
+// Function to spawn fish
+function spawnFish() {
+  const fish = document.createElement("div");
+  fish.className = "fish";
+  fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+  fish.style.left = Math.random() * (gameArea.clientWidth - 50) + "px";
+  fish.style.top = "0px";
 
-    // Entferne alle Fische und Algen
-    fishElements.forEach(fish => gameArea.removeChild(fish));
-    seaweedElements.forEach(seaweed => gameArea.removeChild(seaweed));
+  gameArea.appendChild(fish);
 
-    fishElements.length = 0; // Leere das Array
-    seaweedElements.length = 0; // Leere das Array
+  // Animate fish falling
+  let fallInterval = setInterval(() => {
+    const currentTop = parseInt(fish.style.top);
+    if (currentTop < gameArea.clientHeight - 50) {
+      fish.style.top = currentTop + 5 + "px";
+    } else {
+      clearInterval(fallInterval);
+      gameArea.removeChild(fish);
+    }
+  }, 100);
+
+  // Add click event to fish
+  fish.addEventListener("click", () => {
+    // Only the active player can score
+    if (currentPlayer === 1) {
+      scorePlayer1++;
+      scoreDisplayPlayer1.textContent = `Player 1 Score: ${scorePlayer1}`;
+    } else {
+      scorePlayer2++;
+      scoreDisplayPlayer2.textContent = `Player 2 Score: ${scorePlayer2}`;
+    }
+
+    // Animate fish disappearing
+    fish.style.transform = "scale(0)";
+    setTimeout(() => {
+      clearInterval(fallInterval);
+      gameArea.removeChild(fish);
+    }, 200); // Wait for the scale animation to finish
+  });
 }
 
-// Starte das Spiel, wenn die Seite geladen wird
-window.onload = startGame;
+function spawnSeaweed() {
+  const seaweed = document.createElement("div");
+  seaweed.className = "seaweed";
+  seaweed.textContent = seaweedEmoji;
+  seaweed.style.left = Math.random() * (gameArea.clientWidth - 50) + "px";
+  seaweed.style.top = "0px";
+
+  gameArea.appendChild(seaweed);
+
+  // Animate seaweed falling
+  let fallInterval = setInterval(() => {
+    const currentTop = parseInt(seaweed.style.top);
+    if (currentTop < gameArea.clientHeight - 50) {
+      seaweed.style.top = currentTop + 5 + "px";
+    } else {
+      clearInterval(fallInterval);
+      gameArea.removeChild(seaweed);
+    }
+  }, 100);
+
+  // Add click event to seaweed
+  seaweed.addEventListener("click", () => {
+    // Deduct a point from the current player's score
+    if (currentPlayer === 1) {
+      scorePlayer1 = Math.max(0, scorePlayer1 - 1); // Prevent negative scores
+      scoreDisplayPlayer1.textContent = `Player 1 Score: ${scorePlayer1}`;
+    } else {
+      scorePlayer2 = Math.max(0, scorePlayer2 - 1); // Prevent negative scores
+      scoreDisplayPlayer2.textContent = `Player 2 Score: ${scorePlayer2}`;
+    }
+
+    // Animate seaweed disappearing
+    seaweed.style.transform = "scale(0)";
+    setTimeout(() => {
+      clearInterval(fallInterval);
+      gameArea.removeChild(seaweed);
+    }, 200); // Wait for the scale animation to finish
+  });
+}
+
+// Function to declare the winner
+function declareWinner(activePlayerName, inactivePlayerName) {
+  let winner;
+  if (scorePlayer1 > scorePlayer2) {
+    winner = `${activePlayerName} wins with ${scorePlayer1} points! 🎉`;
+  } else if (scorePlayer2 > scorePlayer1) {
+    winner = `${inactivePlayerName} wins with ${scorePlayer2} points! 🎉`;
+  } else {
+    winner = `It's a tie! ${activePlayerName} scored ${scorePlayer1} points and ${inactivePlayerName} scored ${scorePlayer2} points! 🤝`;
+  }
+  winnerDisplay.textContent = winner;
+  alert(winner); // Alert the winner at the end of the game
+}

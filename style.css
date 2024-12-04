@@ -1,73 +1,133 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-image: url(assets/19110.png);
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 90vh;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url(assets/19110.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h1 {
-  font-size: 24px;
-  margin: 20px 0;
+    margin-top: 20px;
+    font-size: 2.5em;
+    font-family: "Sixtyfour Convergence", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "BLED" 0,
+    "SCAN" 0,
+    "XELA" 0,
+    "YELA" 0;
 }
+
+.players {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.players input {
+    font-size: 1em;
+    padding: 10px;
+    margin: 0 10px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #eef8faef; 
+}
+
+button {
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    background-color: #e44e4e;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #ff1c1c;
+}
+
+#timerDisplay {
+    font-size: 2em;
+    margin: 20px;
+    font-weight: 700;
+    color: #e44e4e;
+
+    
+}
+
+
+
+#scoreboard {
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #e0f7fa71; /* Light blue background */
+}
+
 
 #gameArea {
-  position: relative;
-  width: 700px;
-  height: 700px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  margin: 0 auto;
-  overflow: hidden;
-  background-color: #e0f7fa3b; /* Helle Wasserfarbe */
+    position: relative;
+    width: 900px;
+    height: 600px;
+    /* border: 2px solid #ffffff; */
+    overflow: hidden;
+    margin-top: 20px;
+    background-color: #e0f7fa71; /* Light blue background */
+    margin: 0 auto;
 }
 
-.fish,
+.fish {
+    position: absolute;
+    font-size: 60px;
+    transition: transform 0.2s;
+}
+
 .seaweed {
-  position: absolute;
-  font-size: 50px; /* Größe der Emojis */
+    position: absolute;
+    font-size: 50px;
+    transition: transform 0.2s;
 }
 
-/* Media Query für Tablets */
+/* Media Queries */
 @media (max-width: 768px) {
-  #gameArea {
-    width: 90%; /* Breite anpassen */
-    height: auto; /* Höhe automatisch anpassen */
-  }
+    #gameArea {
+        width: 80%; /* Use a percentage for responsiveness */
+        height: 400px; /* Reduce height for tablets */
+    }
 
-  .fish,
-  .seaweed {
-    font-size: 40px; /* Kleinere Emojis für Tablets */
-  }
+    .fish {
+        font-size: 50px; /* Smaller fish for tablets */
+    }
+
+    .seaweed {
+        font-size: 40px; /* Smaller seaweed for tablets */
+    }
 }
 
-/* Media Query für Smartphones */
 @media (max-width: 480px) {
-  h1 {
-    font-size: 14px;
-  }
+    #gameArea {
+        width: 95%; /* Use a larger percentage for mobile */
+        height: 300px; /* Further reduce height for mobile */
+    }
 
-  body {
-    font-size: 12px; /* Kleinere Schriftgröße für Smartphones */
-  }
+    .fish {
+        font-size: 40px; /* Even smaller fish for mobile */
+    }
 
-  #gameArea {
-    width: 100vw; /* Fast volle Breite für Smartphones */
-    height: 90vh; /* Höhe automatisch anpassen */
-    border-radius: 3%; /* Runderer Rand */
-  }
+    .seaweed {
+        font-size: 30px; /* Even smaller seaweed for mobile */
+    }
 
-  .fish,
-  .seaweed {
-    font-size: 40px; /* Noch kleinere Emojis für Smartphones */
-  }
+    body {
+        padding: 10px; /* Add padding for mobile */
+    }
 }

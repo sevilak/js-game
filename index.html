@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html lang="de">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fische fangen Spiel</title>
+    <title>Fish Catching Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
 </head>
-
 <body>
-    <div id="gameArea">
-        <h1>Fische fangen!</h1>
-        <div id="score">Punkte: 0</div>
-        <div id="timer">Zeit: 30</div>
-        <div id="fishContainer"></div>
+    <h1>Fish Catching Game</h1>
+    <div class="players">
+        <input type="text" id="player1Name" placeholder="Player 1">
+        <input type="text" id="player2Name" placeholder="Player 2">
+        <button onclick="startGame()">Start Game</button>
     </div>
+    <div id="scoreboard">
+        <div id="scorePlayer1">Player 1 Score: 0</div>
+        <div id="scorePlayer2">Player 2 Score: 0</div>
+    </div>
+    <div id="timerDisplay">Time Left: 30</div>
+    <div id="winnerDisplay"></div>
+    <div id="gameArea"></div>
     <script src="script.js"></script>
-
 </body>
-
-<footer>
-    <p>&copy; 2024 Fische fangen Spiel by Vanilla&Nacho</p>
-</footer>
-
 </html>
