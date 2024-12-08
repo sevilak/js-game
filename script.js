@@ -13,17 +13,18 @@ const seaweedEmoji = "🌿";
 
 // Function to start the game
 function startGame() {
-  const player1Name =
-    document.getElementById("player1Name").value || "Player 1";
-  const player2Name =
-    document.getElementById("player2Name").value || "Player 2";
+  const player1Name = document.getElementById("player1Name").value || "Player 1";
+  const player2Name = document.getElementById("player2Name").value || "Player 2";
 
   scorePlayer1 = 0;
   scorePlayer2 = 0;
-  scoreDisplayPlayer1.textContent = `${player1Name} Score: 0`;
-  scoreDisplayPlayer2.textContent = `${player2Name} Score: 0`;
-//   winnerDisplay.textContent = "";
+  scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
+  scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
+  winnerDisplay.textContent = ""; // Clear previous winner
   timerDisplay.textContent = "Time Left: 30";
+
+  // Clear the game area
+  clearGameArea();
 
   // Alert for game rules
   alert(
@@ -36,10 +37,19 @@ function startGame() {
 
   // Start the second round for Player 2 after 30 seconds
   setTimeout(() => {
-    alert(`It's time for ${player2Name}'s turn!`);
-    currentPlayer = 2;
-    startRound(player2Name, player1Name, 30);
+    if (currentPlayer === 1) { // Only switch if Player 1's turn is still active
+      alert(`It's time for ${player2Name}'s turn!`);
+      currentPlayer = 2;
+      startRound(player2Name, player1Name, 30);
+    }
   }, 30000);
+}
+
+// Function to clear the game area
+function clearGameArea() {
+  while (gameArea.firstChild) {
+    gameArea.removeChild(gameArea.firstChild);
+  }
 }
 
 // Function to start a round
@@ -61,9 +71,10 @@ function startRound(activePlayerName, inactivePlayerName, duration) {
       clearInterval(timerInterval);
       clearInterval(gameInterval);
       if (currentPlayer === 1) {
-      }
-      // Check if both players have completed their turns
-      if (currentPlayer === 2) {
+        currentPlayer = 2; // Switch to Player 2
+        alert(`Time's up! It's now ${inactivePlayerName}'s turn!`);
+        startRound(inactivePlayerName, activePlayerName, 30);
+      } else {
         declareWinner(activePlayerName, inactivePlayerName);
       }
     }
@@ -96,10 +107,10 @@ function spawnFish() {
     // Only the active player can score
     if (currentPlayer === 1) {
       scorePlayer1++;
-      scoreDisplayPlayer1.textContent = `Player 1 Score: ${scorePlayer1}`;
+      scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
     } else {
       scorePlayer2++;
-      scoreDisplayPlayer2.textContent = `Player 2 Score: ${scorePlayer2}`;
+      scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
     }
 
     // Animate fish disappearing
@@ -111,6 +122,7 @@ function spawnFish() {
   });
 }
 
+// Function to spawn seaweed
 function spawnSeaweed() {
   const seaweed = document.createElement("div");
   seaweed.className = "seaweed";
@@ -136,10 +148,10 @@ function spawnSeaweed() {
     // Deduct a point from the current player's score
     if (currentPlayer === 1) {
       scorePlayer1 = Math.max(0, scorePlayer1 - 1); // Prevent negative scores
-      scoreDisplayPlayer1.textContent = `Player 1 Score: ${scorePlayer1}`;
+      scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
     } else {
       scorePlayer2 = Math.max(0, scorePlayer2 - 1); // Prevent negative scores
-      scoreDisplayPlayer2.textContent = `Player 2 Score: ${scorePlayer2}`;
+      scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
     }
 
     // Animate seaweed disappearing
