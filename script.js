@@ -22,7 +22,7 @@ function startGame() {
   scorePlayer2 = 0;
   scoreDisplayPlayer1.textContent = `${player1Name} Score: 0`;
   scoreDisplayPlayer2.textContent = `${player2Name} Score: 0`;
-  winnerDisplay.textContent = "";
+//   winnerDisplay.textContent = "";
   timerDisplay.textContent = "Time Left: 30";
 
   // Alert for game rules
