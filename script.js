@@ -11,10 +11,13 @@ const timerDisplay = document.getElementById("timerDisplay");
 const fishEmojis = ["🐟", "🐠", "🐡"];
 const seaweedEmoji = "🌿";
 
+let player1Name; // Declare variables to hold player names
+let player2Name;
+
 // Function to start the game
 function startGame() {
-  const player1Name = document.getElementById("player1Name").value || "Player 1";
-  const player2Name = document.getElementById("player2Name").value || "Player 2";
+  player1Name = document.getElementById("player1Name").value || "Player 1";
+  player2Name = document.getElementById("player2Name").value || "Player 2";
 
   scorePlayer1 = 0;
   scorePlayer2 = 0;
@@ -34,15 +37,6 @@ function startGame() {
   // Start the first round for Player 1
   currentPlayer = 1;
   startRound(player1Name, player2Name, 30);
-
-  // Start the second round for Player 2 after 30 seconds
-  setTimeout(() => {
-    if (currentPlayer === 1) { // Only switch if Player 1's turn is still active
-      alert(`It's time for ${player2Name}'s turn!`);
-      currentPlayer = 2;
-      startRound(player2Name, player1Name, 30);
-    }
-  }, 30000);
 }
 
 // Function to clear the game area
@@ -75,7 +69,8 @@ function startRound(activePlayerName, inactivePlayerName, duration) {
         alert(`Time's up! It's now ${inactivePlayerName}'s turn!`);
         startRound(inactivePlayerName, activePlayerName, 30);
       } else {
-        declareWinner(activePlayerName, inactivePlayerName);
+        // Declare the winner only after both players have played
+        declareWinner(player1Name, player2Name);
       }
     }
   }, 1000);
@@ -164,14 +159,14 @@ function spawnSeaweed() {
 }
 
 // Function to declare the winner
-function declareWinner(activePlayerName, inactivePlayerName) {
+function declareWinner(player1Name, player2Name) {
   let winner;
   if (scorePlayer1 > scorePlayer2) {
-    winner = `${activePlayerName} wins with ${scorePlayer1} points! 🎉`;
+    winner = `${player1Name} wins with ${scorePlayer1} points! 🎉`;
   } else if (scorePlayer2 > scorePlayer1) {
-    winner = `${inactivePlayerName} wins with ${scorePlayer2} points! 🎉`;
+    winner = `${player2Name} wins with ${scorePlayer2} points! 🎉`;
   } else {
-    winner = `It's a tie! ${activePlayerName} scored ${scorePlayer1} points and ${inactivePlayerName} scored ${scorePlayer2} points! 🤝`;
+    winner = `It's a tie! ${player1Name} scored ${scorePlayer1} points and ${player2Name} scored ${scorePlayer2} points! 🤝`;
   }
   winnerDisplay.textContent = winner;
   alert(winner); // Alert the winner at the end of the game
