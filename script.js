@@ -1,20 +1,25 @@
+// variablen für das spiel f. punkte, spieler, timer
+
 let scorePlayer1 = 0;
 let scorePlayer2 = 0;
 let gameInterval;
-let currentPlayer = 1; // 1 for Player 1, 2 for Player 2
+let currentPlayer = 1; // 1 für Player 1, 2 für Player 2
 let timerInterval;
+
+// dom elemente
 const gameArea = document.getElementById("gameArea");
 const scoreDisplayPlayer1 = document.getElementById("scorePlayer1");
 const scoreDisplayPlayer2 = document.getElementById("scorePlayer2");
 const winnerDisplay = document.getElementById("winnerDisplay");
 const timerDisplay = document.getElementById("timerDisplay");
+//array für fische seegras emoji
 const fishEmojis = ["🐟", "🐠", "🐡"];
 const seaweedEmoji = "🌿";
-
-let player1Name; // Declare variables to hold player names
+//variablen für die spieler
+let player1Name; // Namen eintragen und speichern
 let player2Name;
 
-// Function to start the game
+// funktion vom Spiel
 function startGame() {
   player1Name = document.getElementById("player1Name").value || "Player 1";
   player2Name = document.getElementById("player2Name").value || "Player 2";
@@ -23,41 +28,41 @@ function startGame() {
   scorePlayer2 = 0;
   scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
   scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
-  winnerDisplay.textContent = ""; // Clear previous winner
+  winnerDisplay.textContent = ""; // Geiwnner wird nicht angezeigt
   timerDisplay.textContent = "Time Left: 30";
 
-  // Clear the game area
+  // laden des Spiel und leeren
   clearGameArea();
 
-  // Alert for game rules
+  // alert für die Spielregeln
   alert(
     "Game Rules:\nCatch all the fish to score points! 🐟🐠🐡\nBut be careful! If you catch seaweed, you lose 1 point! 🌿"
   );
 
-  // Start the first round for Player 1
+  // spiel starten mit player1 30sec
   currentPlayer = 1;
   startRound(player1Name, player2Name, 30);
 }
 
-// Function to clear the game area
+// funktion um das spiel wieder neu zu starten
 function clearGameArea() {
   while (gameArea.firstChild) {
     gameArea.removeChild(gameArea.firstChild);
   }
 }
 
-// Function to start a round
+// neustart mit timer
 function startRound(activePlayerName, inactivePlayerName, duration) {
   let timeLeft = duration;
   timerDisplay.textContent = `Time Left: ${timeLeft}`;
 
-  // Start spawning fish and seaweed
+  // Start fish and seaweed anzeigen
   gameInterval = setInterval(() => {
     spawnFish();
     spawnSeaweed();
-  }, 800); // Increase frequency of spawning
+  }, 800); // alle 800ms ein neues element
 
-  // Timer countdown
+  // Timer countdown runterzählen
   timerInterval = setInterval(() => {
     timeLeft--;
     timerDisplay.textContent = `Time Left: ${timeLeft}`;
@@ -65,18 +70,18 @@ function startRound(activePlayerName, inactivePlayerName, duration) {
       clearInterval(timerInterval);
       clearInterval(gameInterval);
       if (currentPlayer === 1) {
-        currentPlayer = 2; // Switch to Player 2
+        currentPlayer = 2; // player2 ist dran
         alert(`Time's up! It's now ${inactivePlayerName}'s turn!`);
         startRound(inactivePlayerName, activePlayerName, 30);
       } else {
-        // Declare the winner only after both players have played
+        // das gewinner wird am ende der zweite runde angezeigt
         declareWinner(player1Name, player2Name);
       }
     }
   }, 1000);
 }
 
-// Function to spawn fish
+// fische anzeigen
 function spawnFish() {
   const fish = document.createElement("div");
   fish.className = "fish";
@@ -86,7 +91,7 @@ function spawnFish() {
 
   gameArea.appendChild(fish);
 
-  // Animate fish falling
+  // Fische fallen von oben runter im spielfeld
   let fallInterval = setInterval(() => {
     const currentTop = parseInt(fish.style.top);
     if (currentTop < gameArea.clientHeight - 50) {
@@ -97,9 +102,9 @@ function spawnFish() {
     }
   }, 100);
 
-  // Add click event to fish
+  // click event für fische
   fish.addEventListener("click", () => {
-    // Only the active player can score
+    // nur der aktive playyer bekommt punkte
     if (currentPlayer === 1) {
       scorePlayer1++;
       scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
@@ -108,16 +113,16 @@ function spawnFish() {
       scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
     }
 
-    // Animate fish disappearing
+    // animation fische verschwinden im spielfeld
     fish.style.transform = "scale(0)";
     setTimeout(() => {
       clearInterval(fallInterval);
       gameArea.removeChild(fish);
-    }, 200); // Wait for the scale animation to finish
+    }, 200); // übergang animation
   });
 }
 
-// Function to spawn seaweed
+// seegras anzeigen erzeugen
 function spawnSeaweed() {
   const seaweed = document.createElement("div");
   seaweed.className = "seaweed";
@@ -127,7 +132,7 @@ function spawnSeaweed() {
 
   gameArea.appendChild(seaweed);
 
-  // Animate seaweed falling
+  // seegras fällt von oben
   let fallInterval = setInterval(() => {
     const currentTop = parseInt(seaweed.style.top);
     if (currentTop < gameArea.clientHeight - 50) {
@@ -138,27 +143,26 @@ function spawnSeaweed() {
     }
   }, 100);
 
-  // Add click event to seaweed
+  // click event für seegras, punkte abziehen bei klick
   seaweed.addEventListener("click", () => {
-    // Deduct a point from the current player's score
     if (currentPlayer === 1) {
-      scorePlayer1 = Math.max(0, scorePlayer1 - 1); // Prevent negative scores
+      scorePlayer1 = Math.max(0, scorePlayer1 - 1); 
       scoreDisplayPlayer1.textContent = `${player1Name} Score: ${scorePlayer1}`;
     } else {
-      scorePlayer2 = Math.max(0, scorePlayer2 - 1); // Prevent negative scores
+      scorePlayer2 = Math.max(0, scorePlayer2 - 1); 
       scoreDisplayPlayer2.textContent = `${player2Name} Score: ${scorePlayer2}`;
     }
 
-    // Animate seaweed disappearing
+    // seegras verschwindet
     seaweed.style.transform = "scale(0)";
     setTimeout(() => {
       clearInterval(fallInterval);
       gameArea.removeChild(seaweed);
-    }, 200); // Wait for the scale animation to finish
+    }, 200); 
   });
 }
 
-// Function to declare the winner
+// gewinner anzeigen am ende des spiels
 function declareWinner(player1Name, player2Name) {
   let winner;
   if (scorePlayer1 > scorePlayer2) {
@@ -169,5 +173,5 @@ function declareWinner(player1Name, player2Name) {
     winner = `It's a tie! ${player1Name} scored ${scorePlayer1} points and ${player2Name} scored ${scorePlayer2} points! 🤝`;
   }
   winnerDisplay.textContent = winner;
-  alert(winner); // Alert the winner at the end of the game
+  alert(winner); // alert für den gewinner popup
 }
